@@ -91,9 +91,7 @@ function App() {
   );
   const closeIntro = () => {
     setIntro(false);
-    requestAnimationFrame(() =>
-      document.querySelector<HTMLElement>('#hero-title')?.focus({ preventScroll: true }),
-    );
+    document.querySelector<HTMLElement>('#hero-title')?.focus({ preventScroll: true });
   };
   return (
     <div

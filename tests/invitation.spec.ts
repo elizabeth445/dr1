@@ -125,6 +125,35 @@ test('candle responds by keyboard and can be lit again', async ({ page }) => {
   await page.getByRole('button', { name: 'Ще одне бажання' }).click();
   await expect(candle).toHaveAttribute('aria-disabled', 'false');
 });
+test('dress palette supports keyboard, touch, switching and deselecting an accent', async ({
+  page,
+}, info) => {
+  await open(page);
+  const palette = page.getByRole('group', { name: 'Обери свій колір настрою' });
+  const lime = palette.getByRole('button', { name: 'Лаймовий', exact: true });
+  const coral = palette.getByRole('button', { name: 'Кораловий', exact: true });
+  const note = page.locator('.swatch-note');
+  await palette.scrollIntoViewIfNeeded();
+  const initialHeight = await page.locator('.detail-dress').evaluate((el) => el.clientHeight);
+  await lime.focus();
+  await page.keyboard.press('Enter');
+  await expect(lime).toHaveAttribute('aria-pressed', 'true');
+  await expect(note).toContainText('Невелика деталь, яку неможливо не помітити.');
+  if (info.project.use.hasTouch) await coral.tap();
+  else await coral.click();
+  await expect(lime).toHaveAttribute('aria-pressed', 'false');
+  await expect(coral).toHaveAttribute('aria-pressed', 'true');
+  await expect(palette.locator('[aria-pressed="true"]')).toHaveCount(1);
+  await expect(note).toContainText('Теплий акцент у вбранні або макіяжі.');
+  await coral.focus();
+  await page.keyboard.press('Space');
+  await expect(palette.locator('[aria-pressed="true"]')).toHaveCount(0);
+  await expect(note).toContainText('Твій стиль. Твої правила.');
+  expect(await page.locator('.detail-dress').evaluate((el) => el.clientHeight)).toBe(initialHeight);
+  if (info.project.use.reducedMotion === 'reduce') {
+    await expect(lime).toHaveCSS('transition-duration', '0s');
+  }
+});
 test('RSVP validates, persists, edits and deletes a response', async ({ page }) => {
   await open(page);
   await page.getByRole('button', { name: 'Зберегти відповідь', exact: true }).click();

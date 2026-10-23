@@ -343,7 +343,7 @@ summary:focus-visible {
 .note-bottom {
   display: grid;
   grid-template-columns: 1.2fr 1fr 0.8fr;
-  align-items: end;
+  align-items: start;
   gap: 7%;
   margin-top: 38px;
 }
@@ -357,6 +357,7 @@ summary:focus-visible {
   padding: 22px 20px;
   transform: rotate(-5deg);
   justify-self: end;
+  align-self: center;
   min-width: 210px;
   box-shadow: 3px 4px 0 #11111025;
 }
@@ -1510,7 +1511,9 @@ summary:focus-visible {
 }
 .details-board h3 {
   font: 900 27px/1.15 var(--display);
-  letter-spacing: -0.05em;
+  letter-spacing: -0.035em;
+  word-spacing: 0.12em;
+  text-wrap: balance;
 }
 .detail-location h3 {
   font-size: 42px;
@@ -1528,28 +1531,42 @@ summary:focus-visible {
 .detail-dress {
   border-right: 1px solid var(--black);
 }
+.detail-dress > h3,
+.detail-bring > h3 {
+  min-height: 2.3em;
+}
 .dress-swatches {
   margin-top: 22px;
 }
 .swatch-fan {
   display: flex;
   align-items: end;
-  min-height: 132px;
-  padding: 15px 14px 17px;
+  justify-content: center;
+  width: 100%;
+  max-width: 340px;
+  min-height: 162px;
+  margin-inline: auto;
+  padding: 24px 16px 20px;
   isolation: isolate;
 }
 .dress-swatch {
   position: relative;
-  flex: 1;
+  flex: 1 1 0;
+  min-width: 44px;
   max-width: 72px;
-  height: 98px;
-  margin-left: -11px;
+  height: 106px;
+  padding: 0;
+  margin-left: -8px;
   background: var(--swatch-color);
   border: 1px solid #11111055;
   border-bottom: 17px solid var(--chalk);
   border-radius: 3px;
   box-shadow: 2px 4px 6px #11111026;
   transform-origin: 50% 95%;
+  transform: translateY(var(--swatch-y)) rotate(var(--swatch-rotation));
+  transition:
+    transform 0.28s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.2s;
 }
 .dress-swatch:first-child {
   margin-left: 0;
@@ -1565,23 +1582,63 @@ summary:focus-visible {
   border-radius: 50%;
 }
 .swatch-0 {
-  transform: rotate(-14deg) translateY(3px);
+  --swatch-rotation: -14deg;
+  --swatch-y: 3px;
 }
 .swatch-1 {
-  transform: rotate(-5deg) translateY(-4px);
+  --swatch-rotation: -5deg;
+  --swatch-y: -4px;
 }
 .swatch-2 {
-  transform: rotate(5deg) translateY(-4px);
+  --swatch-rotation: 5deg;
+  --swatch-y: -4px;
 }
 .swatch-3 {
-  transform: rotate(14deg) translateY(3px);
+  --swatch-rotation: 14deg;
+  --swatch-y: 3px;
 }
-.dress-swatches > p {
+.dress-swatch[aria-pressed='true'] {
+  transform: translateY(-10px) rotate(0deg);
+  box-shadow:
+    0 0 0 2px var(--black),
+    3px 8px 12px #11111026;
+  z-index: 5;
+}
+.dress-swatch:focus-visible {
+  outline: 2px solid var(--black);
+  outline-offset: 5px;
+  z-index: 6;
+}
+.dress-swatch:active {
+  transform: translateY(-5px) rotate(0deg) scale(0.97);
+}
+.dress-swatch > svg {
+  position: absolute;
+  left: calc(50% - 6px);
+  bottom: -15px;
+  color: var(--black);
+  opacity: 0;
+}
+.dress-swatch[aria-pressed='true'] > svg {
+  opacity: 1;
+}
+.dress-swatch[aria-pressed='true']:after {
+  opacity: 0;
+}
+.details-board .swatch-note {
+  min-height: 76px;
+  max-width: 300px;
+  margin: 4px auto 0;
+  text-align: center;
   font-size: 12px;
-  margin-top: 9px;
 }
-.detail-bring h3 {
-  font-size: 25px;
+.swatch-note strong,
+.swatch-note span {
+  display: block;
+}
+.swatch-note strong {
+  font-size: 13px;
+  margin-bottom: 5px;
 }
 
 .route-link {
@@ -1624,7 +1681,7 @@ summary:focus-visible {
 .timeline li {
   display: grid;
   grid-template-columns: 160px minmax(0, 1fr);
-  align-items: center;
+  align-items: first baseline;
   gap: 30px;
   padding: 25px 0;
   border-bottom: 1px solid var(--line);
@@ -1641,7 +1698,8 @@ summary:focus-visible {
 .timeline h3 {
   font-size: 25px;
   line-height: 1.2;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.025em;
+  word-spacing: 0.12em;
 }
 .timeline p {
   font-size: 12px;
@@ -1649,6 +1707,9 @@ summary:focus-visible {
   margin-top: 10px;
 }
 @media (hover: hover) and (pointer: fine) {
+  .dress-swatch:not([aria-pressed='true']):hover {
+    box-shadow: 3px 6px 12px #11111040;
+  }
   .photo-button:hover img {
     transform: scale(1.055);
     filter: saturate(1) contrast(1);
@@ -1660,16 +1721,14 @@ summary:focus-visible {
     background: #dfff3f08;
   }
 }
-@media (max-width: 1023px) {
-  .film-image {
-    height: 280px;
-  }
+@media (max-width: 1199px) {
   .details-board {
     grid-template-columns: 1fr 1fr;
   }
   .detail-date {
     grid-column: 1;
     grid-row: 1;
+    border-bottom: 1px solid var(--black);
   }
   .detail-date .button {
     margin-top: 30px;
@@ -1678,14 +1737,16 @@ summary:focus-visible {
     grid-column: 2;
     border-bottom: 1px solid var(--black);
   }
-  .detail-location h3 {
-    font-size: 32px;
-  }
-  .detail-date {
-    border-bottom: 1px solid var(--black);
-  }
   .detail-dress {
     grid-column: 1;
+  }
+}
+@media (max-width: 1023px) {
+  .film-image {
+    height: 280px;
+  }
+  .detail-location h3 {
+    font-size: 32px;
   }
   .details-board > div {
     padding: 24px 20px;
@@ -1714,6 +1775,27 @@ summary:focus-visible {
   }
   .photo-grid {
     gap: 14px;
+  }
+}
+@media (max-width: 767px) {
+  .details-board {
+    grid-template-columns: 1fr;
+  }
+  .detail-date,
+  .detail-location,
+  .detail-dress,
+  .detail-bring {
+    grid-column: 1;
+    grid-row: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--black);
+  }
+  .detail-bring {
+    border: 0;
+  }
+  .detail-dress > h3,
+  .detail-bring > h3 {
+    min-height: 0;
   }
 }
 @media (max-width: 650px) {
@@ -1797,22 +1879,9 @@ summary:focus-visible {
 
   .details-board {
     margin-top: 27px;
-    grid-template-columns: 1fr;
   }
   .details-board > div {
     padding: 23px;
-  }
-  .detail-date,
-  .detail-location,
-  .detail-dress,
-  .detail-bring {
-    grid-column: 1;
-    grid-row: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--black);
-  }
-  .detail-bring {
-    border: 0;
   }
   .detail-date > strong {
     font-size: 68px;
@@ -1881,17 +1950,16 @@ summary:focus-visible {
     grid-template-columns: 78px 1fr;
     gap: 10px;
     padding-block: 23px;
-    align-items: start;
+    align-items: first baseline;
   }
   .timeline time {
     font-size: 22px;
-    padding-top: 2px;
   }
 
   .timeline h3 {
     font-size: 15px;
     line-height: 1.35;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.025em;
     overflow-wrap: anywhere;
   }
   .timeline p {

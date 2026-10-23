@@ -1,7 +1,10 @@
-import { ArrowDownToLine, ArrowUpRight } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowDownToLine, ArrowUpRight, Check } from 'lucide-react';
 import { eventConfig as e, eventDate as d } from '../config/eventConfig';
 import { downloadCalendar } from '../lib/calendar';
 export function Details() {
+  const [selectedColor, setSelectedColor] = useState<number | null>(null);
+  const accent = selectedColor === null ? null : e.dressColors[selectedColor];
   return (
     <section className="details-section" id="details" aria-labelledby="details-title">
       <div className="wrap section details-layout">
@@ -52,21 +55,28 @@ export function Details() {
             <span className="detail-label">Що вдягнути</span>
             <h3>{e.dressCode}</h3>
             <p>{e.dressCodeNote}</p>
-            <div
-              className="dress-swatches"
-              role="img"
-              aria-label="Кольори настрою: чорний, лаймовий, кораловий і срібний"
-            >
-              <div className="swatch-fan" aria-hidden="true">
-                {e.dressColors.map((color, index) => (
-                  <span
+            <div className="dress-swatches">
+              <div className="swatch-fan" role="group" aria-label="Обери свій колір настрою">
+                {e.dressColors.map(({ color, name }, index) => (
+                  <button
+                    type="button"
                     key={color}
                     className={`dress-swatch swatch-${index}`}
                     style={{ '--swatch-color': color } as React.CSSProperties}
-                  />
+                    aria-label={name}
+                    aria-pressed={selectedColor === index}
+                    onClick={() =>
+                      setSelectedColor((current) => (current === index ? null : index))
+                    }
+                  >
+                    <Check size={12} aria-hidden="true" />
+                  </button>
                 ))}
               </div>
-              <p>Твій стиль. Твої правила.</p>
+              <p className="swatch-note" role="status" aria-live="polite" aria-atomic="true">
+                <strong>{accent?.name ?? 'Твій стиль. Твої правила.'}</strong>
+                <span>{accent?.note ?? 'Торкнись кольору — знайди свій акцент.'}</span>
+              </p>
             </div>
           </div>
           <div className="detail-bring">

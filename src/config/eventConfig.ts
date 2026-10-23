@@ -16,7 +16,12 @@ export const eventConfig = {
   dressCode: 'Вечірній настрій',
   dressCodeNote:
     'Улюблений образ, у якому ти почуваєшся собою. Лаймовий або срібний акцент — за бажанням.',
-  dressColors: ['#111110', '#dfff3f', '#ff587c', '#a8aaa8'],
+  dressColors: [
+    { color: '#111110', name: 'Чорний', note: 'Чорна база й один виразний аксесуар.' },
+    { color: '#dfff3f', name: 'Лаймовий', note: 'Невелика деталь, яку неможливо не помітити.' },
+    { color: '#ff587c', name: 'Кораловий', note: 'Теплий акцент у вбранні або макіяжі.' },
+    { color: '#a8aaa8', name: 'Срібний', note: 'Прикраси й деталі, що ловлять світло.' },
+  ],
   rsvpDeadline: '2026-11-21',
   allowGuests: true,
   maxGuests: 3,

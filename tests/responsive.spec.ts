@@ -29,6 +29,28 @@ for (const width of [320, 375, 390, 430, 768, 1024, 1440, 1920]) {
       .evaluate((el) => el.scrollIntoView({ block: 'start', behavior: 'instant' }));
     await page.screenshot({ path: `output/qa/closing-${width}.png` });
     await page.screenshot({ path: `output/qa/full-${width}.png`, fullPage: true });
+    const palette = await page.locator('.swatch-fan').evaluate((el) => {
+      const parent = el.getBoundingClientRect();
+      const cards = Array.from(el.children).map((card) => card.getBoundingClientRect());
+      const left = Math.min(...cards.map((r) => r.left));
+      const right = Math.max(...cards.map((r) => r.right));
+      return { centerError: Math.abs((left + right - parent.left - parent.right) / 2) };
+    });
+    expect(palette.centerError, 'color cards remain centered').toBeLessThan(1);
+    if (width >= 768) {
+      const tops = await page
+        .locator('.detail-dress > p, .detail-bring > p')
+        .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().top));
+      expect(Math.abs(tops[0] - tops[1]), 'detail descriptions share the same top').toBeLessThan(1);
+    }
+    if (width >= 1024) {
+      const tops = await page
+        .locator('.note-bottom > p')
+        .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().top));
+      expect(Math.abs(tops[0] - tops[1]), 'invitation paragraphs share the same top').toBeLessThan(
+        1,
+      );
+    }
     const clipped = await page.locator('h1,h2,h3').evaluateAll((els) =>
       els
         .filter((el) => {
