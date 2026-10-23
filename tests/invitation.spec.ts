@@ -40,6 +40,62 @@ test('invitation opens, replays, skips, and traps keyboard focus', async ({ page
   await expect(page.locator('.opening')).not.toBeVisible();
   await expect(page.locator('#hero-title')).toBeFocused();
 });
+test('new visits and reloads start with a fresh invitation at the top', async ({ page }) => {
+  await page.goto('/#rsvp');
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.locator('.opening')).toBeVisible();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await page.getByRole('button', { name: 'Відкрити запрошення', exact: true }).click();
+  await expect(page.locator('.opening')).not.toBeVisible();
+  await expect(page.locator('#hero-title')).toBeInViewport();
+  await page.locator('header .nav-rsvp').click();
+  await expect(page.locator('#rsvp-title')).toBeInViewport();
+  await page.evaluate(() => history.replaceState(history.state, '', '#rsvp'));
+  await page.reload();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.locator('.opening')).toBeVisible();
+  await expect(page.locator('.opening-inner')).toHaveCSS('opacity', '1');
+  await expect(
+    page.getByRole('button', { name: 'Відкрити запрошення', exact: true }),
+  ).toBeEnabled();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  await page.getByRole('button', { name: 'Відкрити запрошення', exact: true }).click();
+  await expect(page.locator('.opening')).not.toBeVisible();
+  await expect(page.locator('#hero-title')).toBeInViewport();
+});
+test('restored browser pages reload the invitation while preserving RSVP', async ({ page }) => {
+  await open(page);
+  const response = {
+    version: 1,
+    name: 'Ліза',
+    attendance: 'yes',
+    guests: 1,
+    message: 'До зустрічі!',
+    updatedAt: new Date().toISOString(),
+  };
+  await page.evaluate(
+    ({ key, response }) => {
+      localStorage.setItem(key, JSON.stringify(response));
+      document.documentElement.dataset.previousVisit = 'true';
+    },
+    { key, response },
+  );
+  // Chromium automation disables bfcache; exercise its real pageshow signal directly.
+  await Promise.all([
+    page.waitForEvent('load'),
+    page.evaluate(() =>
+      window.dispatchEvent(new PageTransitionEvent('pageshow', { persisted: true })),
+    ),
+  ]);
+  await expect(page.locator('html')).not.toHaveAttribute('data-previous-visit');
+  await expect(page.locator('.opening')).toBeVisible();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  expect(await page.evaluate((key) => JSON.parse(localStorage.getItem(key)!), key)).toEqual(
+    response,
+  );
+  await page.getByRole('button', { name: 'Пропустити вступ' }).click();
+  await expect(page.locator('.rsvp-success')).toContainText('Ліза!');
+});
 test('gallery opens, changes by button and keyboard, closes with focus return', async ({
   page,
 }) => {
