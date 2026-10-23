@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
-import { ArrowUpRight, MoveRight } from 'lucide-react';
+import { MoveRight } from 'lucide-react';
 import { eventConfig as e, eventDate as d } from '../config/eventConfig';
 import { useMotionPreference } from '../hooks/useMotionPreference';
 
@@ -176,7 +176,9 @@ export function Opening({ show, onClose }: { show: boolean; onClose: () => void 
                     <span>{e.title}</span>
                   </div>
                   <div className="ticket-wordmark" aria-hidden="true">
-                    ↗
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
+                      <path d="M3 21 21 3M7 3h14v14" />
+                    </svg>
                   </div>
                   <h2 id="opening-title">
                     ПІСЛЯ
@@ -208,14 +210,10 @@ export function Opening({ show, onClose }: { show: boolean; onClose: () => void 
               <div className="ticket-stub">
                 <div className="paper-grain" />
 
-                <span className="stub-mark">
-                  {e.initial}
-                  <span>↗</span>
-                </span>
+                <span className="stub-mark">{e.initial}</span>
 
                 <span className="stub-date">{d.time}</span>
                 <span className="micro">{e.city}</span>
-                <ArrowUpRight size={30} strokeWidth={1.4} aria-hidden="true" />
               </div>
             </div>
           </div>
@@ -226,7 +224,7 @@ export function Opening({ show, onClose }: { show: boolean; onClose: () => void 
             <MoveRight size={20} aria-hidden="true" />
           </button>
           <button className="skip" onClick={close}>
-            Пропустити вступ ↗
+            Пропустити вступ
           </button>
         </div>
       </div>

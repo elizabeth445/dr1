@@ -49,7 +49,7 @@ export function Candle() {
           <h2 id="wish-title">
             ОДНЕ
             <br />
-            БАЖАННЯ<span>↗</span>
+            БАЖАННЯ
           </h2>
           <p>
             Між розмовами й танцями

@@ -95,10 +95,10 @@ export function Gallery() {
               target="_blank"
               rel="noreferrer"
             >
-              Коктейль / джерело Unsplash ↗
+              Коктейль / джерело Unsplash
             </a>
             <a href="https://unsplash.com/license" target="_blank" rel="noreferrer">
-              Ліцензія Unsplash ↗
+              Ліцензія Unsplash
             </a>
           </div>
         </details>

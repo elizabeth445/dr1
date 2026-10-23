@@ -153,10 +153,6 @@ summary:focus-visible {
   font: 900 14px/1.1 var(--display);
   letter-spacing: -0.04em;
 }
-.brand-symbol {
-  font: 45px/1 var(--sans);
-  color: var(--acid);
-}
 .brand-dot {
   color: var(--coral);
 }
@@ -555,6 +551,11 @@ summary:focus-visible {
   font: 900 75px/1 var(--display);
   color: var(--black);
 }
+.ticket-wordmark svg {
+  display: block;
+  width: 1em;
+  height: 1em;
+}
 .ticket-main h2 {
   font: 900 clamp(35px, 5.8vw, 72px)/1.1 var(--display);
   letter-spacing: -0.075em;
@@ -641,11 +642,6 @@ summary:focus-visible {
   letter-spacing: -0.1em;
   position: relative;
   display: block;
-}
-.stub-mark > span {
-  font-size: 22px;
-  vertical-align: top;
-  letter-spacing: 0;
 }
 
 .stub-date {
@@ -781,9 +777,6 @@ summary:focus-visible {
   .brand {
     font-size: 11px;
     gap: 8px;
-  }
-  .brand-symbol {
-    font-size: 33px;
   }
   .header nav {
     grid-row: 2;
@@ -1074,8 +1067,7 @@ summary:focus-visible {
     grid-row: 1;
     font-size: 24px;
   }
-  .stub-mark,
-  .ticket-stub > svg {
+  .stub-mark {
     display: none;
   }
   .opening-actions {
@@ -1467,11 +1459,6 @@ summary:focus-visible {
   line-height: 1.15;
   position: relative;
 }
-.details-top h2 > span {
-  display: inline-block;
-  margin-left: 25px;
-  color: var(--coral);
-}
 
 .details-board {
   display: grid;
@@ -1520,7 +1507,6 @@ summary:focus-visible {
   grid-column: 2/4;
   border-bottom: 1px solid var(--black);
   position: relative;
-  padding-right: 190px !important;
 }
 .details-board h3 {
   font: 900 27px/1.15 var(--display);
@@ -1538,12 +1524,6 @@ summary:focus-visible {
 .details-board .venue-name {
   font-size: 16px;
   margin-top: 12px;
-}
-.location-glyph {
-  position: absolute;
-  right: 39px;
-  top: 30px;
-  font: 900 110px/1 var(--display);
 }
 .detail-dress {
   border-right: 1px solid var(--black);
@@ -1643,7 +1623,7 @@ summary:focus-visible {
 }
 .timeline li {
   display: grid;
-  grid-template-columns: 160px 1fr 50px;
+  grid-template-columns: 160px minmax(0, 1fr);
   align-items: center;
   gap: 30px;
   padding: 25px 0;
@@ -1667,11 +1647,6 @@ summary:focus-visible {
   font-size: 12px;
   color: var(--muted);
   margin-top: 10px;
-}
-.timeline-arrow {
-  font-size: 38px;
-  justify-self: end;
-  color: var(--coral);
 }
 @media (hover: hover) and (pointer: fine) {
   .photo-button:hover img {
@@ -1701,13 +1676,7 @@ summary:focus-visible {
   }
   .detail-location {
     grid-column: 2;
-    padding-right: 25px !important;
     border-bottom: 1px solid var(--black);
-  }
-  .location-glyph {
-    font-size: 55px;
-    right: 22px;
-    top: 38px;
   }
   .detail-location h3 {
     font-size: 32px;
@@ -1728,7 +1697,7 @@ summary:focus-visible {
     font-size: 25px;
   }
   .timeline li {
-    grid-template-columns: 110px 1fr 30px;
+    grid-template-columns: 110px minmax(0, 1fr);
     gap: 20px;
   }
   .timeline time {
@@ -1825,9 +1794,6 @@ summary:focus-visible {
   .details-top h2 {
     font-size: clamp(27px, 7.4vw, 40px);
   }
-  .details-top h2 > span {
-    margin-left: 10px;
-  }
 
   .details-board {
     margin-top: 27px;
@@ -1879,11 +1845,6 @@ summary:focus-visible {
     justify-self: start;
     min-height: 49px;
   }
-  .location-glyph {
-    font-size: 60px;
-    top: 34px;
-    right: 22px;
-  }
   .details-board h3 {
     font-size: 27px;
   }
@@ -1897,9 +1858,6 @@ summary:focus-visible {
   .details-board .venue-name {
     font-size: 15px;
     max-width: 230px;
-  }
-  .detail-location {
-    padding-right: 23px !important;
   }
 
   .schedule {
@@ -1940,9 +1898,6 @@ summary:focus-visible {
     font-size: 11px;
     line-height: 1.6;
     margin-top: 9px;
-  }
-  .timeline-arrow {
-    display: none;
   }
   .lightbox {
     padding: 62px 16px 20px;
@@ -2072,12 +2027,6 @@ summary:focus-visible {
   font-size: clamp(40px, 5.6vw, 84px);
   line-height: 1.15;
   letter-spacing: -0.065em;
-}
-.wish-copy h2 > span {
-  display: inline-block;
-  margin-left: 15px;
-  font-size: 0.7em;
-  vertical-align: top;
 }
 .wish-copy > p {
   font-size: 15px;
@@ -2519,6 +2468,7 @@ textarea {
 .closing-bottom .button {
   min-width: 235px;
   font-size: 13px;
+  justify-content: center;
 }
 .footer {
   display: flex;
@@ -2621,9 +2571,6 @@ textarea {
 
   .wish-copy h2 {
     font-size: clamp(28px, 7.8vw, 45px);
-  }
-  .wish-copy h2 > span {
-    margin-left: 8px;
   }
   .wish-copy > p {
     font-size: 13px;

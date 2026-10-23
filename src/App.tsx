@@ -113,9 +113,6 @@ function App() {
       </a>
       <header className="header wrap">
         <a className="brand" href="#home" title="На початок">
-          <span className="brand-symbol" aria-hidden="true">
-            ↗
-          </span>
           <span>
             ПІСЛЯ
             <br />
@@ -128,7 +125,7 @@ function App() {
           <a href="#moments">Кадри</a>
         </nav>
         <a className="nav-rsvp" href="#rsvp">
-          Я буду <ArrowUpRight size={18} aria-hidden="true" />
+          Я буду
         </a>
       </header>
       <main id="main">
@@ -169,7 +166,7 @@ function App() {
               <strong>
                 БУТИ
                 <br />
-                РАЗОМ ↗
+                РАЗОМ
               </strong>
             </div>
           </div>
@@ -208,7 +205,7 @@ function App() {
               <p>{e.invitation.paragraphs[1]}</p>
               <div className="signature">
                 <span>З любов’ю,</span>
-                <strong>{e.name} ↗</strong>
+                <strong>{e.name}</strong>
               </div>
             </div>
           </div>

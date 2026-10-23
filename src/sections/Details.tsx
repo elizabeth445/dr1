@@ -9,7 +9,7 @@ export function Details() {
           <h2 id="details-title">
             БЕЗ ЗАЙВИХ
             <br />
-            ЗАПИТАНЬ<span>↘</span>
+            ЗАПИТАНЬ
           </h2>
         </div>
         <div className="details-board">
@@ -47,9 +47,6 @@ export function Details() {
                 <ArrowUpRight size={17} aria-hidden="true" />
               </a>
             )}
-            <div className="location-glyph" aria-hidden="true">
-              ↗
-            </div>
           </div>
           <div className="detail-dress">
             <span className="detail-label">Що вдягнути</span>
@@ -113,9 +110,6 @@ export function Schedule() {
               <h3>{item.title}</h3>
               <p>{item.note}</p>
             </div>
-            <span className="timeline-arrow" aria-hidden="true">
-              ↗
-            </span>
           </li>
         ))}
       </ol>

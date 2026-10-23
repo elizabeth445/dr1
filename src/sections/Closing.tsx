@@ -22,7 +22,6 @@ export function Closing() {
           </span>
           <a className="button paper" href="#rsvp">
             Залишити відповідь
-            <ArrowUpRight size={20} aria-hidden="true" />
           </a>
         </div>
       </div>
